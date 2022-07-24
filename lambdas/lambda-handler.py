@@ -86,8 +86,6 @@ def main(event, context):
     table = dynamodb.Table('StockData')
     response = table.scan()
     print(response)
-    
-
 
     # initial values for the DynamoDB table
     tempObj = [float(x) for x in list(list(jsonObj['Time Series (1min)'].values())[0].values())]
@@ -96,7 +94,6 @@ def main(event, context):
     lowAvg = tempObj[2] 
     closeAvg = tempObj[3] 
     volAvg = tempObj[4] 
-    
 
     # Moving Average
     for x in jsonObj['Time Series (1min)']:
@@ -112,10 +109,6 @@ def main(event, context):
     print("Low: {:.2f}".format(lowAvg))
     print("Close: {:.2f}".format(closeAvg))
     print("Volume: {:.2f}".format(volAvg))
-    
-
-
-
 
     table = dynamodb.Table('stock_data')
     table.put_item(
