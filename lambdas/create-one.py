@@ -2,7 +2,6 @@ import requests
 import boto3
 import json
 
-
 def main(event, context):
     try:
         body = json.loads(event['body'])
@@ -18,11 +17,8 @@ def main(event, context):
     print(dateString)
     print(timeStamp)
     
-    
-    # get time series data by dateString from DynamoDB
     table = dynamodb.Table('StockData')
     
-    # put time series data into DynamoDB
     table.put_item(
         Item={
             'dateString': dateString,
