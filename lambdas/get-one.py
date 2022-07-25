@@ -12,7 +12,24 @@ def main(event, context):
 
     # get time series data by date from DynamoDB
     table = dynamodb.Table(TABLE_NAME)
-    # # find the date in the table
+    # find the date in the table
+    response = table.get_item(
+        Key={
+            PRIMARY_KEY: event[PRIMARY_KEY]
+        }
+    )
+    # get the data from the table
+    data = response['Item']
+    # convert the data to a json string
+    json_str = json.dumps(data)
+    # convert the json string to a json object
+    pretty_printed = json.dumps(json.loads(json_str), indent=4)
+    return {
+        "statusCode": 200,
+        'body': pretty_printed
+    }
+
+    
     # response = table.get_item(
     # )
     # # get the data from the table
