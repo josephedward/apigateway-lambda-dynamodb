@@ -1,11 +1,10 @@
 import { Stack, StackProps, Duration, App, RemovalPolicy } from "aws-cdk-lib";
 import { Construct } from "constructs";
-import events = require("aws-cdk-lib/aws-events");
-import targets = require("aws-cdk-lib/aws-events-targets");
 import lambda = require("aws-cdk-lib/aws-lambda");
-import * as ecr from "aws-cdk-lib/aws-ecr";
 import fs = require("fs");
-// import {lambda, Handler } from "aws-cdk-lib/aws-lambda";
+// import events = require("aws-cdk-lib/aws-events");
+// import targets = require("aws-cdk-lib/aws-events-targets");
+
 import {
   IResource,
   LambdaIntegration,
@@ -14,79 +13,10 @@ import {
   RestApi,
 } from "aws-cdk-lib/aws-apigateway";
 import { AttributeType, Table } from "aws-cdk-lib/aws-dynamodb";
-// import { Runtime } from 'aws-cdk-lib/aws-lambda';
-// import { join } from 'path'
 
 export class ApiLambdaDynamoStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
-
-    //
-
-    // // # If the table doesn't exist, create it
-    // table = dynamodb.create_table(
-    //   TableName = 'StockData',
-    //   KeySchema = [
-    //     {
-    //       'AttributeName': 'symbol',
-    //       'KeyType': 'HASH'  #Partition key
-    //     },
-    //     {
-    //       'AttributeName': 'dateString',
-    //       'KeyType': 'RANGE'  #Sort key
-    //     }
-    //   ],
-    //   AttributeDefinitions = [
-    //     {
-    //       'AttributeName': 'symbol',
-    //       'AttributeType': 'S'
-    //     },
-    //     {
-    //       'AttributeName': 'dateString',
-    //       'AttributeType': 'S'
-    //     },
-    //   ],
-    //   ProvisionedThroughput = {
-    //     'ReadCapacityUnits': 10,
-    //     'WriteCapacityUnits': 10
-    //   }
-    // )
-    // print("Table status:", table.item_count)
-
-    // # Put some data in the table
-    // table.put_item(
-    //   Item = {
-    //     'symbol': 'MSFT',
-    //     'dateString': '2019-01-01',
-    //     'open': '100.00',
-    //     'high': '100.00',
-    //     'low': '100.00',
-    //     'close': '100.00',
-    //     'volume': '100.00'
-    //   }
-    // )
-    // table.put_item(
-    //   Item = {
-    //     'symbol': 'MSFT',
-    //     'dateString': '2019-01-02',
-    //     'open': '100.00',
-    //     'high': '100.00',
-    //     'low': '100.00',
-    //     'close': '100.00',
-    //     'volume': '100.00'
-    //   }
-    // )
-    // table.put_item(
-    //   Item = {
-    //     'symbol': 'MSFT',
-    //     'dateString': '2019-01-03',
-    //     'open': '100.00',
-    //     'high': '100.00',
-    //     'low': '100.00',
-    //     'close': '100.00',
-    //     'volume': '100.00'
-    //   }
-    // )
 
     const dynamoTable = new Table(this, "StockData", {
       partitionKey: {
@@ -172,7 +102,6 @@ export class ApiLambdaDynamoStack extends Stack {
   // const rule = new events.Rule(this, "Rule", {
   //   schedule: events.Schedule.rate(Duration.minutes(1)),
   // });
-
   // rule.addTarget(new targets.LambdaFunction(lambdaFn));
 }
 
