@@ -43,7 +43,7 @@ export class ApiLambdaDynamoStack extends Stack {
       environment: {
         PRIMARY_KEY: "dateString",
         SORT_KEY: "timestamp",
-        TABLE_NAME: dynamoTable.tableName,
+        TABLE_NAME: "StockData",
       },
     });
 
@@ -58,7 +58,7 @@ export class ApiLambdaDynamoStack extends Stack {
       environment: {
         PRIMARY_KEY: "dateString",
         SORT_KEY: "timestamp",
-        TABLE_NAME: dynamoTable.tableName,
+        TABLE_NAME: "StockData",
       },
     });
 
@@ -73,7 +73,7 @@ export class ApiLambdaDynamoStack extends Stack {
       environment: {
         PRIMARY_KEY: "dateString",
         SORT_KEY: "timestamp",
-        TABLE_NAME: dynamoTable.tableName,
+        TABLE_NAME: "StockData",
       },
     });
 
