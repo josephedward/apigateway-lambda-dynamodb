@@ -33,7 +33,7 @@ export class ApiLambdaDynamoStack extends Stack {
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
-    const viewer = new TableViewer(this, 'CookiesViewer', {
+    const viewer = new TableViewer(this, 'StockDataViewer', {
       table: dynamoTable,
       title: 'StockData', 
       sortBy: '-timestamp'
