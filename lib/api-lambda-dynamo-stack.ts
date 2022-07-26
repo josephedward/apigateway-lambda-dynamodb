@@ -3,9 +3,6 @@ import { Construct } from "constructs";
 import lambda = require("aws-cdk-lib/aws-lambda");
 import fs = require("fs");
 import { Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
-// import events = require("aws-cdk-lib/aws-events");
-// import targets = require("aws-cdk-lib/aws-events-targets");
-
 import {
   IResource,
   LambdaIntegration,
@@ -14,6 +11,10 @@ import {
   RestApi,
 } from "aws-cdk-lib/aws-apigateway";
 import { AttributeType, Table } from "aws-cdk-lib/aws-dynamodb";
+import { TableViewer } from 'cdk-dynamo-table-viewer'
+// import events = require("aws-cdk-lib/aws-events");
+// import targets = require("aws-cdk-lib/aws-events-targets");
+
 
 export class ApiLambdaDynamoStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -30,6 +31,12 @@ export class ApiLambdaDynamoStack extends Stack {
       },
       tableName: "StockData",
       removalPolicy: RemovalPolicy.DESTROY,
+    });
+
+    const viewer = new TableViewer(this, 'CookiesViewer', {
+      table: dynamoTable,
+      title: 'StockData', 
+      sortBy: '-timestamp'
     });
 
     const createOneLambda = new lambda.Function(this, "createOneFunction", {
