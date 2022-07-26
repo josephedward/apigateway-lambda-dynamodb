@@ -9,7 +9,7 @@ def main(event, context):
     except:
         return{
             'statusCode': 200,
-            'body': "unable to read event body"
+            'body': "unable to read event path parameters"
         }
 
     dynamodb = boto3.resource('dynamodb')
@@ -48,16 +48,20 @@ def main(event, context):
             volAvg = (volAvg + float(value['5. volume']))/2
             print("\n")
 
-    print("Open: {:.2f}".format(openAvg))
-    print("High: {:.2f}".format(highAvg))
-    print("Low: {:.2f}".format(lowAvg))
-    print("Close: {:.2f}".format(closeAvg))
+    print("Open:   {:.2f}".format(openAvg))
+    print("High:   {:.2f}".format(highAvg))
+    print("Low:    {:.2f}".format(lowAvg))
+    print("Close:  {:.2f}".format(closeAvg))
     print("Volume: {:.2f}".format(volAvg))
 
     return {
-        'open': openAvg,
-        'high': highAvg,
-        'low': lowAvg,
-        'close': closeAvg,
-        'volume': volAvg
+        
+        'statusCode': 200,
+        'body': {
+            'Opening Average':   "{:.2f}".format(openAvg),
+            'High  Average':   "{:.2f}".format(highAvg),
+            'Low Average':    "{:.2f}".format(lowAvg),
+            'Close Average':  "{:.2f}".format(closeAvg),
+            'Volume Average': "{:.2f}".format(volAvg)
+        }
     }
