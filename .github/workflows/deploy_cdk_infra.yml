@@ -30,4 +30,4 @@ jobs:
         run: npx aws-cdk synth
 
       - name: Deploy stack
-        run: npx aws-cdk deploy --create-change-set
+        run: y | npx aws-cdk deploy --create-change-set
