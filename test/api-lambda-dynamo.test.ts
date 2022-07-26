@@ -55,10 +55,8 @@ test('Lambda Function Created', () => {
   const template = Template.fromStack(stack);
 
   template.hasResourceProperties('AWS::Lambda::Function', {
-    FunctionName: 'create-one',
     Handler: 'index.main',
     MemorySize: 128,
-    Role: 'arn:aws:iam::123456789012:role/lambda-dynamo-role',
     Runtime: 'python3.7',
     Timeout: 300,
     Environment: {
@@ -80,10 +78,8 @@ test('Lambda Function Created', () => {
   const template = Template.fromStack(stack);
 
   template.hasResourceProperties('AWS::Lambda::Function', {
-    FunctionName: 'get-one',
     Handler: 'index.main',
     MemorySize: 128,
-    Role: 'arn:aws:iam::123456789012:role/lambda-dynamo-role',
     Runtime: 'python3.7',
     Timeout: 300,
     Environment: {
@@ -105,10 +101,8 @@ test('Lambda Function Created', () => {
   const template = Template.fromStack(stack);
 
   template.hasResourceProperties('AWS::Lambda::Function', {
-    FunctionName: 'get-all',
     Handler: 'index.main',
     MemorySize: 128,
-    Role: 'arn:aws:iam::123456789012:role/lambda-dynamo-role',
     Runtime: 'python3.7',
     Timeout: 300,
     Environment: {

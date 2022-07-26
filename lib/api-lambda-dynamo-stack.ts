@@ -2,6 +2,7 @@ import { Stack, StackProps, Duration, App, RemovalPolicy } from "aws-cdk-lib";
 import { Construct } from "constructs";
 import lambda = require("aws-cdk-lib/aws-lambda");
 import fs = require("fs");
+import { Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
 // import events = require("aws-cdk-lib/aws-events");
 // import targets = require("aws-cdk-lib/aws-events-targets");
 
@@ -38,6 +39,7 @@ export class ApiLambdaDynamoStack extends Stack {
       handler: "index.main",
       timeout: Duration.seconds(300),
       runtime: lambda.Runtime.PYTHON_3_7,
+      memorySize : 128,
       environment: {
         PRIMARY_KEY: "dateString",
         SORT_KEY: "timestamp",
@@ -52,6 +54,7 @@ export class ApiLambdaDynamoStack extends Stack {
       handler: "index.main",
       timeout: Duration.seconds(300),
       runtime: lambda.Runtime.PYTHON_3_7,
+      memorySize : 128,
       environment: {
         PRIMARY_KEY: "dateString",
         SORT_KEY: "timestamp",
@@ -66,6 +69,7 @@ export class ApiLambdaDynamoStack extends Stack {
       handler: "index.main",
       timeout: Duration.seconds(300),
       runtime: lambda.Runtime.PYTHON_3_7,
+      memorySize : 128,
       environment: {
         PRIMARY_KEY: "dateString",
         SORT_KEY: "timestamp",
