@@ -54,14 +54,15 @@ def main(event, context):
     print("Close:  {:.2f}".format(closeAvg))
     print("Volume: {:.2f}".format(volAvg))
 
-    return {
-        
-        'statusCode': 200,
-        'body': {
+    dayStats = json.dumps({
             'Opening Average':   "{:.2f}".format(openAvg),
             'High  Average':   "{:.2f}".format(highAvg),
             'Low Average':    "{:.2f}".format(lowAvg),
             'Close Average':  "{:.2f}".format(closeAvg),
             'Volume Average': "{:.2f}".format(volAvg)
-        }
+            })
+
+    return {
+        'statusCode': 200,
+        'body': dayStats
     }
