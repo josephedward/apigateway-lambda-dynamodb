@@ -10,7 +10,7 @@ test('Api Gateway Created', () => {
     const template = Template.fromStack(stack);
   
     template.hasResourceProperties('AWS::ApiGateway::RestApi', {
-      Name: 'api-lambda-dynamo',
+      Name: "stockDataApi"
     });
   })
 
