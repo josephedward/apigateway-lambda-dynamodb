@@ -31,6 +31,7 @@ export class ApiLambdaDynamoStack extends Stack {
     });
 
     const createOneLambda = new lambda.Function(this, "createOneFunction", {
+      functionName: "createOneFunction",
       code: new lambda.InlineCode(
         fs.readFileSync("./lambdas/create-one.py", { encoding: "utf-8" })
       ),
@@ -46,6 +47,7 @@ export class ApiLambdaDynamoStack extends Stack {
     });
 
     const getOneLambda = new lambda.Function(this, "getOneFunction", {
+      functionName: "getOneFunction",
       code: new lambda.InlineCode(
         fs.readFileSync("./lambdas/get-one.py", { encoding: "utf-8" })
       ),
@@ -61,6 +63,7 @@ export class ApiLambdaDynamoStack extends Stack {
     });
 
     const getAllLambda = new lambda.Function(this, "getAllFunction", {
+      functionName: "getAllFunction",
       code: new lambda.InlineCode(
         fs.readFileSync("./lambdas/get-all.py", { encoding: "utf-8" })
       ),
@@ -76,6 +79,7 @@ export class ApiLambdaDynamoStack extends Stack {
     });
 
     const cronJobLambda = new lambda.Function(this, "cronJobFunction", {
+      functionName: "cronJobFunction",
       code: new lambda.InlineCode(
         fs.readFileSync("./lambdas/cronjob.py", { encoding: "utf-8" })
       ),

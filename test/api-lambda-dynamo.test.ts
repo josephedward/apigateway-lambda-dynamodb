@@ -1,5 +1,6 @@
 import * as cdk from "aws-cdk-lib";
 import { Template } from "aws-cdk-lib/assertions";
+import { Lambda } from "aws-cdk-lib/aws-ses-actions";
 import * as ApiLambdaDynamo from "../lib/api-lambda-dynamo-stack";
 
 test("Api Gateway Created", () => {
@@ -54,6 +55,7 @@ test("Lambda Function Created", () => {
   const template = Template.fromStack(stack);
 
   template.hasResourceProperties("AWS::Lambda::Function", {
+    FunctionName: "createOneFunction",
     Handler: "index.main",
     MemorySize: 128,
     Runtime: "python3.7",
@@ -76,6 +78,7 @@ test("Lambda Function Created", () => {
   const template = Template.fromStack(stack);
 
   template.hasResourceProperties("AWS::Lambda::Function", {
+    FunctionName: "getOneFunction",
     Handler: "index.main",
     MemorySize: 128,
     Runtime: "python3.7",
@@ -98,6 +101,7 @@ test("Lambda Function Created", () => {
   const template = Template.fromStack(stack);
 
   template.hasResourceProperties("AWS::Lambda::Function", {
+    FunctionName: "updateOneFunction",
     Handler: "index.main",
     MemorySize: 128,
     Runtime: "python3.7",
@@ -109,5 +113,32 @@ test("Lambda Function Created", () => {
         TABLE_NAME: "StockData",
       },
     },
+  });
+});
+
+test("Cronjob Created", () => {
+  const app = new cdk.App();
+  // WHEN
+  const stack = new ApiLambdaDynamo.ApiLambdaDynamoStack(app, "MyTestStack");
+  // THEN
+  const template = Template.fromStack(stack);
+
+  template.hasResourceProperties("AWS::Events::Rule", {
+    ScheduleExpression: "rate(1 hour)",
+  });
+
+  template.hasResourceProperties("AWS::Lambda::Function", {
+    FunctionName: "cronJobFunction",
+    Handler: "index.main",
+    MemorySize: 128,
+    Runtime: "python3.7",
+    Timeout: 300,
+    Environment: {
+      Variables: {
+        PRIMARY_KEY: "dateString",
+        SORT_KEY: "timeString",
+        TABLE_NAME: "StockData",
+      },
+    }
   });
 });
