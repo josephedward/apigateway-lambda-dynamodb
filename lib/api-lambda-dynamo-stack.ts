@@ -11,9 +11,8 @@ import {
   RestApi,
 } from "aws-cdk-lib/aws-apigateway";
 import { AttributeType, Table } from "aws-cdk-lib/aws-dynamodb";
-import { TableViewer } from 'cdk-dynamo-table-viewer'
-// import events = require("aws-cdk-lib/aws-events");
-// import targets = require("aws-cdk-lib/aws-events-targets");
+import events = require("aws-cdk-lib/aws-events");
+import targets = require("aws-cdk-lib/aws-events-targets");
 
 
 export class ApiLambdaDynamoStack extends Stack {
@@ -31,12 +30,6 @@ export class ApiLambdaDynamoStack extends Stack {
       },
       tableName: "StockData",
       removalPolicy: RemovalPolicy.DESTROY,
-    });
-
-    const viewer = new TableViewer(this, 'StockDataViewer', {
-      table: dynamoTable,
-      title: 'StockData', 
-      sortBy: '-timestamp'
     });
 
     const createOneLambda = new lambda.Function(this, "createOneFunction", {
@@ -84,6 +77,30 @@ export class ApiLambdaDynamoStack extends Stack {
       },
     });
 
+  //   const cronJobLambda = new lambda.Function(this, "cronJobFunction", {
+  //     code: new lambda.InlineCode(
+  //       fs.readFileSync("./lambdas/cron-job.go", { encoding: "utf-8" })
+  //     ),
+  //     handler: "index.main",
+  //     timeout: Duration.seconds(300),
+  //     runtime: lambda.Runtime.GO_1_X,
+  //     memorySize : 128,
+  //     environment: {
+  //       PRIMARY_KEY: "dateString",
+  //       SORT_KEY: "timestamp",
+  //       TABLE_NAME: "StockData",
+  //     },
+  //   });
+
+
+  // // daily cronjob to update the data, singleton function
+  // const rule = new events.Rule(this, "Rule", {
+  //   schedule: events.Schedule.rate(Duration.days(1)),
+  //   targets: [new targets.LambdaFunction(cronJobLambda)],
+  // });
+  
+
+
     dynamoTable.grantReadWriteData(getOneLambda);
     dynamoTable.grantReadWriteData(createOneLambda);
     dynamoTable.grantReadWriteData(getAllLambda);
@@ -108,12 +125,7 @@ export class ApiLambdaDynamoStack extends Stack {
     addCorsOptions(allDateStrings);
   }
 
-  // for cronjob to update the data, singleton function, if I get time to do that
-
-  // const rule = new events.Rule(this, "Rule", {
-  //   schedule: events.Schedule.rate(Duration.minutes(1)),
-  // });
-  // rule.addTarget(new targets.LambdaFunction(lambdaFn));
+  
 }
 
 export function addCorsOptions(apiResource: IResource) {
