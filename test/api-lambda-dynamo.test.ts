@@ -101,7 +101,7 @@ test("Lambda Function Created", () => {
   const template = Template.fromStack(stack);
 
   template.hasResourceProperties("AWS::Lambda::Function", {
-    FunctionName: "updateOneFunction",
+    FunctionName: "getAllFunction",
     Handler: "index.main",
     MemorySize: 128,
     Runtime: "python3.7",
