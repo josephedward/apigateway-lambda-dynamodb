@@ -2,7 +2,6 @@ import { Stack, StackProps, Duration, App, RemovalPolicy } from "aws-cdk-lib";
 import { Construct } from "constructs";
 import lambda = require("aws-cdk-lib/aws-lambda");
 import fs = require("fs");
-import { Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
 import {
   IResource,
   LambdaIntegration,
@@ -14,7 +13,6 @@ import { AttributeType, Table } from "aws-cdk-lib/aws-dynamodb";
 import events = require("aws-cdk-lib/aws-events");
 import targets = require("aws-cdk-lib/aws-events-targets");
 
-
 export class ApiLambdaDynamoStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
@@ -25,7 +23,7 @@ export class ApiLambdaDynamoStack extends Stack {
         type: AttributeType.STRING,
       },
       sortKey: {
-        name: "timestamp",
+        name: "timeString",
         type: AttributeType.STRING,
       },
       tableName: "StockData",
@@ -39,10 +37,10 @@ export class ApiLambdaDynamoStack extends Stack {
       handler: "index.main",
       timeout: Duration.seconds(300),
       runtime: lambda.Runtime.PYTHON_3_7,
-      memorySize : 128,
+      memorySize: 128,
       environment: {
         PRIMARY_KEY: "dateString",
-        SORT_KEY: "timestamp",
+        SORT_KEY: "timeString",
         TABLE_NAME: "StockData",
       },
     });
@@ -54,10 +52,10 @@ export class ApiLambdaDynamoStack extends Stack {
       handler: "index.main",
       timeout: Duration.seconds(300),
       runtime: lambda.Runtime.PYTHON_3_7,
-      memorySize : 128,
+      memorySize: 128,
       environment: {
         PRIMARY_KEY: "dateString",
-        SORT_KEY: "timestamp",
+        SORT_KEY: "timeString",
         TABLE_NAME: "StockData",
       },
     });
@@ -69,41 +67,40 @@ export class ApiLambdaDynamoStack extends Stack {
       handler: "index.main",
       timeout: Duration.seconds(300),
       runtime: lambda.Runtime.PYTHON_3_7,
-      memorySize : 128,
+      memorySize: 128,
       environment: {
         PRIMARY_KEY: "dateString",
-        SORT_KEY: "timestamp",
+        SORT_KEY: "timeString",
         TABLE_NAME: "StockData",
       },
     });
 
-  //   const cronJobLambda = new lambda.Function(this, "cronJobFunction", {
-  //     code: new lambda.InlineCode(
-  //       fs.readFileSync("./lambdas/cron-job.go", { encoding: "utf-8" })
-  //     ),
-  //     handler: "index.main",
-  //     timeout: Duration.seconds(300),
-  //     runtime: lambda.Runtime.GO_1_X,
-  //     memorySize : 128,
-  //     environment: {
-  //       PRIMARY_KEY: "dateString",
-  //       SORT_KEY: "timestamp",
-  //       TABLE_NAME: "StockData",
-  //     },
-  //   });
+    const cronJobLambda = new lambda.Function(this, "cronJobFunction", {
+      code: new lambda.InlineCode(
+        fs.readFileSync("./lambdas/cronjob.py", { encoding: "utf-8" })
+      ),
+      handler: "index.main",
+      timeout: Duration.seconds(300),
+      runtime: lambda.Runtime.PYTHON_3_7,
+      memorySize: 128,
+      environment: {
+        PRIMARY_KEY: "dateString",
+        SORT_KEY: "timeString",
+        TABLE_NAME: "StockData",
+      },
+    });
 
-
-  // // daily cronjob to update the data, singleton function
-  // const rule = new events.Rule(this, "Rule", {
-  //   schedule: events.Schedule.rate(Duration.days(1)),
-  //   targets: [new targets.LambdaFunction(cronJobLambda)],
-  // });
-  
-
+    // daily cronjob to update the data, singleton function
+    const rule = new events.Rule(this, "Rule", {
+      schedule: events.Schedule.rate(Duration.hours(1)),
+      targets: [new targets.LambdaFunction(cronJobLambda)],
+    });
 
     dynamoTable.grantReadWriteData(getOneLambda);
     dynamoTable.grantReadWriteData(createOneLambda);
     dynamoTable.grantReadWriteData(getAllLambda);
+    dynamoTable.grantReadWriteData(cronJobLambda);
+
     const createOneIntegration = new LambdaIntegration(createOneLambda);
     const getOneIntegration = new LambdaIntegration(getOneLambda);
     const getAllIntegration = new LambdaIntegration(getAllLambda);
@@ -124,8 +121,6 @@ export class ApiLambdaDynamoStack extends Stack {
     allDateStrings.addMethod("GET", getAllIntegration);
     addCorsOptions(allDateStrings);
   }
-
-  
 }
 
 export function addCorsOptions(apiResource: IResource) {

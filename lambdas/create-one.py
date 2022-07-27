@@ -2,6 +2,7 @@ import requests
 import boto3
 import json
 
+
 def main(event, context):
     try:
         body = json.loads(event['body'])
@@ -13,16 +14,16 @@ def main(event, context):
 
     dynamodb = boto3.resource('dynamodb')
     dateString = list(body['Meta Data'].values())[2].split(" ")[0]
-    timeStamp = list(body['Meta Data'].values())[2].split(" ")[1]
+    timeString = list(body['Meta Data'].values())[2].split(" ")[1]
     print(dateString)
-    print(timeStamp)
-    
+    print(timeString)
+
     table = dynamodb.Table('StockData')
-    
+
     table.put_item(
         Item={
             'dateString': dateString,
-            'timestamp' : timeStamp,
+            'timeString': timeString,
             'stock_data': body['Time Series (1min)']
         }
     )
