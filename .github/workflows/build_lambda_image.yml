@@ -1,0 +1,80 @@
+name: build_lambda_images
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build_lambda_image:
+    env:
+      AWS_ACCESS_KEY_ID: ${{secrets.KEY_ID}}
+      AWS_SECRET_ACCESS_KEY: ${{secrets.ACCESS_KEY}}
+      AWS_DEFAULT_REGION: us-east-1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git clone the repository
+        uses: actions/checkout@v1
+
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: push lambda image
+        id: build-create-one-lambda-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: create-one
+          IMAGE_TAG: latest
+        run: |          
+          cd lambdas
+          ./build-python-lambda.sh
+          # aws ecr create-repository --repository-name $ECR_REPOSITORY | echo "repo already created" 
+          # docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . --build-arg var_name=$ECR_REPOSITORY
+          # echo "Pushing image to ECR..."
+          # docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          # echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: push lambda images
+        id: build-get-one-lambda-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: get-one
+          IMAGE_TAG: latest
+        run: |
+          cd lambdas
+          ./build-python-lambda.sh
+          # aws ecr create-repository --repository-name $ECR_REPOSITORY | echo "repo already created" 
+          # docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . --build-arg var_name=$ECR_REPOSITORY
+          # echo "Pushing image to ECR..."
+          # docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          # echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: push lambda images
+        id: build-get-all-lambda-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: get-all
+          IMAGE_TAG: latest
+        run: |          
+          cd lambdas
+          ./build-python-lambda.sh
+          # aws ecr create-repository --repository-name $ECR_REPOSITORY | echo "repo already created" 
+          # docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . --build-arg var_name=$ECR_REPOSITORY
+          # echo "Pushing image to ECR..."
+          # docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          # echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: push lambda images
+        id: build-cron-job-lambda-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: cronjob
+          IMAGE_TAG: latest
+        run: |       
+          cd lambdas 
+          ./build-python-lambda.sh
+          # aws ecr create-repository --repository-name $ECR_REPOSITORY | echo "repo already created" 
+          # docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . --build-arg var_name=$ECR_REPOSITORY
+          # echo "Pushing image to ECR..."
+          # docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          # echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"

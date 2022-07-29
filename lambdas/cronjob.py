@@ -4,10 +4,8 @@ import json
 import os
 import requests
 
-
 def main(event, context):
     try:
-
         response = json.loads(requests.get(
             'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=1min&apikey=demo').content)
     except:
@@ -31,7 +29,7 @@ def main(event, context):
                 'timeString': timeString,
                 'stock_data': stockData
             },
-            ConditionExpression='attribute_not_exists(dateString) AND attribute_not_exists(timeString)'
+            Condition= Key('dateString').ne(dateString) and Key('timeString').ne(timeString)       # if the item already exists, don't put it again     
         )
         print("Stock data added to DynamoDB")
         return{

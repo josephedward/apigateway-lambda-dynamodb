@@ -16,7 +16,9 @@ def main(event, context):
     table = dynamodb.Table('StockData')
 
     response = table.query(
-        KeyConditionExpression=Key('dateString').eq(dateString)
+        KeyConditionExpression=[
+            Key('dateString').eq(dateString)
+        ]
     )
 
     openAvg = 0
