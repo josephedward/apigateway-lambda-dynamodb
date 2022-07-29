@@ -33,7 +33,7 @@ export class ApiLambdaDynamoStack extends Stack {
     const createOneLambda = new lambda.Function(this, "createOneFunction", {
       functionName: "createOneFunction",
       code: new lambda.InlineCode(
-        fs.readFileSync("./lambdas/create-one.py", { encoding: "utf-8" })
+        fs.readFileSync("./lambdas/create-one/create-one.py", { encoding: "utf-8" })
       ),
       handler: "index.main",
       timeout: Duration.seconds(300),
