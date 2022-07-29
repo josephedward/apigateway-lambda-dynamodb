@@ -31,7 +31,7 @@ export class ApiLambdaDynamoStack extends Stack {
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
-    const createOneLambda = new lambda.DockerImageFunction(this, "CreateOneLambda", {
+    const createOneLambda = new lambda.DockerImageFunction(this, "createOneFunction", {
       code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, "../lambdas/create-one")),
       timeout: Duration.seconds(300),
       // new lambda.Function(this, "createOneFunction", {
