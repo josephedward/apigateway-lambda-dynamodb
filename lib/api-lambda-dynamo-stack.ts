@@ -12,7 +12,6 @@ import {
 import { AttributeType, Table } from "aws-cdk-lib/aws-dynamodb";
 import events = require("aws-cdk-lib/aws-events");
 import targets = require("aws-cdk-lib/aws-events-targets");
-import path = require("path");
 
 export class ApiLambdaDynamoStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -31,13 +30,13 @@ export class ApiLambdaDynamoStack extends Stack {
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
-    const createOneLambda = new lambda.DockerImageFunction(this, "createOneFunction", {
+    const createOneLambda = new lambda.Function(this, "createOneFunction", {
       functionName: "createOneFunction",
       code: new lambda.InlineCode(
-        fs.readFileSync("./lambdas/create-one/create-one.py", { encoding: "utf-8" })
+        fs.readFileSync("./lambdas/create-one.py", { encoding: "utf-8" })
       ),
       handler: "index.main",
-      duration: Duration.seconds(300),
+      timeout: Duration.seconds(300),
       runtime: lambda.Runtime.PYTHON_3_7,
       memorySize: 128,
       environment: {
@@ -50,7 +49,7 @@ export class ApiLambdaDynamoStack extends Stack {
     const getOneLambda = new lambda.Function(this, "getOneFunction", {
       functionName: "getOneFunction",
       code: new lambda.InlineCode(
-        fs.readFileSync("./lambdas/get-one/get-one.py", { encoding: "utf-8" })
+        fs.readFileSync("./lambdas/get-one.py", { encoding: "utf-8" })
       ),
       handler: "index.main",
       timeout: Duration.seconds(300),
@@ -66,7 +65,7 @@ export class ApiLambdaDynamoStack extends Stack {
     const getAllLambda = new lambda.Function(this, "getAllFunction", {
       functionName: "getAllFunction",
       code: new lambda.InlineCode(
-        fs.readFileSync("./lambdas/get-all/get-all.py", { encoding: "utf-8" })
+        fs.readFileSync("./lambdas/get-all.py", { encoding: "utf-8" })
       ),
       handler: "index.main",
       timeout: Duration.seconds(300),
@@ -82,7 +81,7 @@ export class ApiLambdaDynamoStack extends Stack {
     const cronJobLambda = new lambda.Function(this, "cronJobFunction", {
       functionName: "cronJobFunction",
       code: new lambda.InlineCode(
-        fs.readFileSync("./lambdas/cronjob/cronjob.py", { encoding: "utf-8" })
+        fs.readFileSync("./lambdas/cronjob.py", { encoding: "utf-8" })
       ),
       handler: "index.main",
       timeout: Duration.seconds(300),
