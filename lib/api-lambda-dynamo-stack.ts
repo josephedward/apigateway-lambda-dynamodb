@@ -12,6 +12,7 @@ import {
 import { AttributeType, Table } from "aws-cdk-lib/aws-dynamodb";
 import events = require("aws-cdk-lib/aws-events");
 import targets = require("aws-cdk-lib/aws-events-targets");
+import path = require("path");
 
 export class ApiLambdaDynamoStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -30,14 +31,17 @@ export class ApiLambdaDynamoStack extends Stack {
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
-    const createOneLambda = new lambda.Function(this, "createOneFunction", {
-      functionName: "createOneFunction",
-      code: new lambda.InlineCode(
-        fs.readFileSync("./lambdas/create-one.py", { encoding: "utf-8" })
-      ),
-      handler: "index.main",
+    const createOneLambda = new lambda.DockerImageFunction(this, "CreateOneLambda", {
+      code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, "../lambdas/create-one")),
       timeout: Duration.seconds(300),
-      runtime: lambda.Runtime.PYTHON_3_7,
+      // new lambda.Function(this, "createOneFunction", {
+    //   functionName: "createOneFunction",
+    //   code: new lambda.InlineCode(
+    //     fs.readFileSync("./lambdas/create-one.py", { encoding: "utf-8" })
+    //   ),
+    //   handler: "index.main",
+    
+    //   runtime: lambda.Runtime.PYTHON_3_7,
       memorySize: 128,
       environment: {
         PRIMARY_KEY: "dateString",

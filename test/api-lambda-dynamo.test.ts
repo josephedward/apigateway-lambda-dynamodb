@@ -47,7 +47,8 @@ test("DynamoDB Table Created", () => {
   });
 });
 
-test("Lambda Function Created", () => {
+
+test("Create-one Function Created", () => {
   const app = new cdk.App();
   // WHEN
   const stack = new ApiLambdaDynamo.ApiLambdaDynamoStack(app, "MyTestStack");
@@ -57,18 +58,39 @@ test("Lambda Function Created", () => {
   template.hasResourceProperties("AWS::Lambda::Function", {
     FunctionName: "createOneFunction",
     Handler: "index.main",
-    MemorySize: 128,
     Runtime: "python3.7",
-    Timeout: 300,
+    Code: {DockerImageAsset: "../lambdas/create-one"},
     Environment: {
-      Variables: {
-        PRIMARY_KEY: "dateString",
-        SORT_KEY: "timeString",
-        TABLE_NAME: "StockData",
-      },
+      PRIMARY_KEY: "dateString",
+      SORT_KEY: "timeString",
+      TABLE_NAME: "StockData",
     },
+    Timeout: 300,
+    MemorySize: 128,
   });
 });
+// test("Lambda Function Created", () => {
+//   const app = new cdk.App();
+//   // WHEN
+//   const stack = new ApiLambdaDynamo.ApiLambdaDynamoStack(app, "MyTestStack");
+//   // THEN
+//   const template = Template.fromStack(stack);
+
+//   template.hasResourceProperties("AWS::Lambda::Function", {
+//     FunctionName: "createOneFunction",
+//     Handler: "index.main",
+//     MemorySize: 128,
+//     Runtime: "python3.7",
+//     Timeout: 300,
+//     Environment: {
+//       Variables: {
+//         PRIMARY_KEY: "dateString",
+//         SORT_KEY: "timeString",
+//         TABLE_NAME: "StockData",
+//       },
+//     },
+//   });
+// });
 
 test("Lambda Function Created", () => {
   const app = new cdk.App();
