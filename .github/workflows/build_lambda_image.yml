@@ -14,6 +14,12 @@ jobs:
       - name: Git clone the repository
         uses: actions/checkout@v1
 
+      - name: Configure aws credentials
+        uses: aws-actions/configure-aws-credentials@master
+        with:
+          aws-access-key-id: ${{ github.event.inputs.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ github.event.inputs.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ github.event.inputs.AWS_REGION }}
 
       - name: Login to Amazon ECR
         id: login-ecr
