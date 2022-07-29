@@ -33,7 +33,7 @@ jobs:
           IMAGE_TAG: latest
         run: |          
           cd lambdas
-          # ./build-python-lambda.sh
+          ./build-python-lambda.sh
           # aws ecr create-repository --repository-name $ECR_REPOSITORY | echo "repo already created" 
           # docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . --build-arg var_name=$ECR_REPOSITORY
           # echo "Pushing image to ECR..."
@@ -48,7 +48,7 @@ jobs:
           IMAGE_TAG: latest
         run: |
           cd lambdas
-          # ./build-python-lambda.sh
+          ./build-python-lambda.sh
           # aws ecr create-repository --repository-name $ECR_REPOSITORY | echo "repo already created" 
           # docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . --build-arg var_name=$ECR_REPOSITORY
           # echo "Pushing image to ECR..."
