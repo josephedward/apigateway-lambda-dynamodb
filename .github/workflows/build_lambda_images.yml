@@ -34,11 +34,6 @@ jobs:
         run: |          
           cd lambdas/create-one
           ../build-python-lambda.sh
-          # aws ecr create-repository --repository-name $ECR_REPOSITORY | echo "repo already created" 
-          # docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . --build-arg var_name=$ECR_REPOSITORY
-          # echo "Pushing image to ECR..."
-          # docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          # echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
       - name: push lambda images
         id: build-get-one-lambda-image
@@ -48,12 +43,7 @@ jobs:
           IMAGE_TAG: latest
         run: |
           cd lambdas/get-all
-          ./build-python-lambda.sh
-          # aws ecr create-repository --repository-name $ECR_REPOSITORY | echo "repo already created" 
-          # docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . --build-arg var_name=$ECR_REPOSITORY
-          # echo "Pushing image to ECR..."
-          # docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          # echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          ../build-python-lambda.sh
 
       - name: push lambda images
         id: build-get-all-lambda-image
@@ -63,12 +53,7 @@ jobs:
           IMAGE_TAG: latest
         run: |          
           cd lambdas/get-one
-          ./build-python-lambda.sh
-          # aws ecr create-repository --repository-name $ECR_REPOSITORY | echo "repo already created" 
-          # docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . --build-arg var_name=$ECR_REPOSITORY
-          # echo "Pushing image to ECR..."
-          # docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          # echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          ../build-python-lambda.sh
 
       - name: push lambda images
         id: build-cron-job-lambda-image
@@ -78,9 +63,4 @@ jobs:
           IMAGE_TAG: latest
         run: |       
           cd lambdas/cronjob 
-          ./build-python-lambda.sh
-          # aws ecr create-repository --repository-name $ECR_REPOSITORY | echo "repo already created" 
-          # docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . --build-arg var_name=$ECR_REPOSITORY
-          # echo "Pushing image to ECR..."
-          # docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          # echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          ../build-python-lambda.sh
