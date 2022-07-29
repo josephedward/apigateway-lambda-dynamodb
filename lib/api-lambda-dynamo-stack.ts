@@ -31,17 +31,14 @@ export class ApiLambdaDynamoStack extends Stack {
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
-    const createOneLambda = new lambda.DockerImageFunction(this, "createOneFunction", {
-      code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, "../lambdas/create-one")),
-      timeout: Duration.seconds(300),
-      // new lambda.Function(this, "createOneFunction", {
-    //   functionName: "createOneFunction",
-    //   code: new lambda.InlineCode(
-    //     fs.readFileSync("./lambdas/create-one.py", { encoding: "utf-8" })
-    //   ),
-    //   handler: "index.main",
-    
-    //   runtime: lambda.Runtime.PYTHON_3_7,
+    const createOneLambda = new lambda.DockerImageFunction(this, "CreateOneLambda", {
+      functionName: "createOneFunction",
+      code: new lambda.InlineCode(
+        fs.readFileSync("./lambdas/create-one/create-one.py", { encoding: "utf-8" })
+      ),
+      handler: "index.main",
+      duration: Duration.seconds(300),
+      runtime: lambda.Runtime.PYTHON_3_7,
       memorySize: 128,
       environment: {
         PRIMARY_KEY: "dateString",
