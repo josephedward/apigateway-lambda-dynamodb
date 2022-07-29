@@ -31,7 +31,7 @@ export class ApiLambdaDynamoStack extends Stack {
       removalPolicy: RemovalPolicy.DESTROY,
     });
 
-    const createOneLambda = new lambda.DockerImageFunction(this, "CreateOneLambda", {
+    const createOneLambda = new lambda.DockerImageFunction(this, "createOneFunction", {
       functionName: "createOneFunction",
       code: new lambda.InlineCode(
         fs.readFileSync("./lambdas/create-one/create-one.py", { encoding: "utf-8" })
