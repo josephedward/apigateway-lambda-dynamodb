@@ -11,7 +11,7 @@ jobs:
       - name: Install and run gosandbox
       #  will result in a formatting error - easier to just build all my executables and containers in ubuntu from the start 
         run: |
-          wget https://github.com/josephedward/gosandbox/releases/download/v.0.2.2/gosandbox-ubuntu
+          wget https://github.com/josephedward/gosandbox/releases/download/v0.2.2/gosandbox-ubuntu
 
                       
           chmod +x gosandbox
