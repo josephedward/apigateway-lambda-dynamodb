@@ -4,46 +4,13 @@ on:
     branches: [main]
 jobs:
   get_sandbox:
-    env:
-      # AWS_ACCESS_KEY_ID: ${{secrets.KEY_ID}}
-      # AWS_SECRET_ACCESS_KEY: ${{secrets.ACCESS_KEY}}
-      AWS_DEFAULT_REGION: us-east-1
-      USERNAME: josephedwardwork@gmail.com
-      PASSWORD: ${{secrets.PWD}} 
-      URL: https://learn.acloud.guru/cloud-playground/cloud-sandboxes
-      AWS_RELATIVE_PATH: ../../../.aws/credentials
-      DOWNLOAD_KEY: credentials
     runs-on: ubuntu-latest
     steps:
-      - uses: robinraju/release-downloader@v1.5
-        with:
-          repository: "josephedward/gosandbox"
-          tag: "v0.2.1"
-          fileName: "gosandbox"
-      
-      - name: Install gosandbox
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install and run gosandbox
         run: |
+          wget https://github.com/josephedward/gosandbox/releases/download/v0.2.1/gosandbox
           chmod +x gosandbox
-          sudo mv gosandbox /usr/local/bin/gosandbox
           gosandbox --version
-      # - name: Git clone the repository
-      #   uses: actions/checkout@v1
-
-      # - uses: actions/setup-node@v2
-      #   with:
-      #     node-version: "14"
-
-      # - name: Install
-      #   run: |
-      #     npm install
-      #     npm i aws-cdk
-      #     npm run build
-
-      # - name: Test infra
-      #   run: npm run test
-
-      # - name: Synth stack
-      #   run: npx aws-cdk synth
-
-      # - name: Deploy stack
-      #   run: npx aws-cdk deploy --create-change-set --require-approval never
+          ./gosandbox
