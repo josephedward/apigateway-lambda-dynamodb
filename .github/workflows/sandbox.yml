@@ -14,5 +14,5 @@ jobs:
           wget https://github.com/josephedward/gosandbox/releases/download/v0.2.2/gosandbox-ubuntu
 
                       
-          chmod +x gosandbox
-          ./gosandbox 
+          chmod +x gosandbox-ubuntu
+          ./gosandbox-ubuntu
