@@ -20,6 +20,8 @@ jobs:
         run: |
           # echo ${{secrets.PERSONAL_GITHUB_BOT_SECRET}} | docker login ghcr.io -u josephedward  --password-stdin
           # docker pull ghcr.io/josephedward/gosandbox/alpha-v1:sha-ac7ca48
-          # docker run  -e USERNAME=josephedwardwork@gmail.com -e PASSWORD=${{secrets.ACLOUD}} -e URL=https://learn.acloud.guru/cloud-playground/cloud-sandboxes -e DOWNLOAD_KEY=credentials ghcr.io/josephedward/gosandbox/alpha-v1:sha-ac7ca48
-
+          docker run  -e USERNAME=josephedwardwork@gmail.com -e PASSWORD=${{secrets.ACLOUD}} -e URL=https://learn.acloud.guru/cloud-playground/cloud-sandboxes -e DOWNLOAD_KEY=credentials ghcr.io/josephedward/gosandbox/alpha-v1:sha-ac7ca48
+          # docker login docker.pkg.github.com -u josephedward -p ${{secret.PERSONAL_GITHUB_BOT_SECRET}}
+          # docker pull docker.pkg.github.com/josephedward/gosandbox/alpha-v1:sha-f2982a6
+          # docker run -d -it --rm -p 8080:80 -e PW=${{secrets.ACLOUD}} docker.pkg.github.com/josephedward/gosandbox/alpha-v1:latest
           
