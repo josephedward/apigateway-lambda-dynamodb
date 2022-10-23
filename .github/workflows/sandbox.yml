@@ -12,13 +12,12 @@ jobs:
         uses: actions/checkout@v2
       - name: Install and run gosandbox
         run: |
-          export PATH=${PATH}:`go env GOPATH`/bin
-          wget https://github.com/josephedward/gosandbox/releases/download/v0.2.2/gosandbox_linux_386
-          chmod +x gosandbox_linux_386
-          ./gosandbox_linux_386 josephedwardwork@gmail.com ${{secrets.ACLOUD}} https://learn.acloud.guru/cloud-playground/cloud-sandboxes credentials
+          docker run -d -it --rm -p 8080:80 --name ttt docker.pkg.github.com/josephedward/gosandbox/alpha-v1:latest
 
-
-
+          # export PATH=${PATH}:`go env GOPATH`/bin
+          # wget https://github.com/josephedward/gosandbox/releases/download/v0.2.2/gosandbox_linux_386
+          # chmod +x gosandbox_linux_386
+          # ./gosandbox_linux_386 josephedwardwork@gmail.com ${{secrets.ACLOUD}} https://learn.acloud.guru/cloud-playground/cloud-sandboxes credentials
           # wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           # sudo apt install ./google-chrome-stable_current_amd64.deb
           # sudo apt-get update && sudo apt-get install -y libx11-dev
