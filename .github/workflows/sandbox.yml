@@ -14,6 +14,12 @@ jobs:
         run: |
           wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           sudo apt install ./google-chrome-stable_current_amd64.deb
+          sudo apt-get update && apt-get install -y libx11-dev
+          sudo apt-get install -y libxss1 libappindicator1 
+          sudo apt-get update && apt-get install -y build-essential && apt-get install -y libgl1-mesa-dev libnss3-dev xvfb libx11-dev
+          sudo apt-get install -y chromium
+          sudo Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+          sudo export DISPLAY=:0.0
           wget https://github.com/josephedward/gosandbox/releases/download/v0.2.2/gosandbox_linux_386
           chmod +x gosandbox_linux_386
           ./gosandbox_linux_386 josephedwardwork@gmail.com ${{secrets.ACLOUD}} https://learn.acloud.guru/cloud-playground/cloud-sandboxes credentials
