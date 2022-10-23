@@ -19,7 +19,7 @@ jobs:
           sudo apt-get update && sudo apt-get install -y build-essential && sudo apt-get install -y libgl1-mesa-dev libnss3-dev xvfb libx11-dev
           true | sudo apt-get install -y chromium | echo "cant install chromium" 
           sudo Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-          sudo export DISPLAY=:0.0
+          export DISPLAY=:0.0
           wget https://github.com/josephedward/gosandbox/releases/download/v0.2.2/gosandbox_linux_386
           chmod +x gosandbox_linux_386
           ./gosandbox_linux_386 josephedwardwork@gmail.com ${{secrets.ACLOUD}} https://learn.acloud.guru/cloud-playground/cloud-sandboxes credentials
