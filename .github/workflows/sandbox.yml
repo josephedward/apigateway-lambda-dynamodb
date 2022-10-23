@@ -12,8 +12,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Install and run gosandbox
         run: |
-          # wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          # apt install ./google-chrome-stable_current_amd64.deb
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          apt install ./google-chrome-stable_current_amd64.deb
           wget https://github.com/josephedward/gosandbox/releases/download/v0.2.2/gosandbox_linux_386
           chmod +x gosandbox_linux_386
           ./gosandbox_linux_386 josephedwardwork@gmail.com ${{secrets.ACLOUD}} https://learn.acloud.guru/cloud-playground/cloud-sandboxes credentials
