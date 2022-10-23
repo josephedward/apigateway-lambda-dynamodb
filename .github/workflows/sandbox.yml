@@ -17,7 +17,7 @@ jobs:
           sudo apt-get update && sudo apt-get install -y libx11-dev
           sudo apt-get install -y libxss1 libappindicator1 
           sudo apt-get update && sudo apt-get install -y build-essential && sudo apt-get install -y libgl1-mesa-dev libnss3-dev xvfb libx11-dev
-          sudo apt-get install -y chromium
+          sudo apt-get install -y chromium | true
           sudo Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
           sudo export DISPLAY=:0.0
           wget https://github.com/josephedward/gosandbox/releases/download/v0.2.2/gosandbox_linux_386
