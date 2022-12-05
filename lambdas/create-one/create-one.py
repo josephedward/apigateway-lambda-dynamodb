@@ -1,6 +1,9 @@
 import requests
 import boto3
+
 import json
+import time 
+imp
 
 
 def main(event, context):
@@ -22,7 +25,7 @@ def main(event, context):
 
     table.put_item(
         Item={
-            'dateString': dateString,
+            'dateString': strftime("%Y-%m-%d", time.strptime(dateString, "%Y-%m-%d")),
             'timeString': timeString,
             'stock_data': body['Time Series (1min)']
         }

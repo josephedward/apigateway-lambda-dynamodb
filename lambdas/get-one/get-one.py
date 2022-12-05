@@ -16,8 +16,9 @@ def main(event, context):
     table = dynamodb.Table('StockData')
 
     response = table.query(
+        # //need to get sort key as well
         KeyConditionExpression=[
-            Key('dateString').eq(dateString)
+            Key('dateString').eq(dateString).sort_key('timeString')
         ]
     )
 
